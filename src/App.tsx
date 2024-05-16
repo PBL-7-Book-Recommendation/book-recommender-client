@@ -1,26 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Suspense, useEffect, useState } from "react";
+import "./App.css";
+import { Box, ThemeProvider } from "@mui/material";
+import { store } from "./redux/store";
+import { ToastContainer } from "react-toastify";
+import { setHeaderConfigAxios } from "./services/config";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./router";
+import { GlobalStyle } from "./styles/GlobalStyle";
+import Theme from "./theme";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const [loading, setLoading] = useState(true);
+	const accessToken = store.getState().auth.accessToken;
+
+	useEffect(() => {
+		if (accessToken) {
+			setHeaderConfigAxios(accessToken);
+		}
+		setLoading(false);
+	}, [accessToken]);
+
+	if (loading) return <></>;
+
+	return (
+		<Box>
+			<Suspense fallback={<>Loading...</>}>
+				<ThemeProvider theme={Theme}>
+					<GlobalStyle>
+						<ToastContainer
+							style={{ fontSize: "15px" }}
+							autoClose={2000}
+							draggable
+						/>
+						<RouterProvider router={router}></RouterProvider>
+					</GlobalStyle>
+				</ThemeProvider>
+			</Suspense>
+		</Box>
+	);
 }
 
 export default App;
