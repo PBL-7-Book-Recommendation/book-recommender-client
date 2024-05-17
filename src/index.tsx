@@ -9,6 +9,8 @@ import { persistor, store } from "./redux/store";
 import { Experimental_CssVarsProvider as CssVarsProvider } from "@mui/material/styles";
 import Theme from "./theme";
 import { CssBaseline } from "@mui/material";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const root = ReactDOM.createRoot(
 	document.getElementById("root") as HTMLElement
@@ -16,12 +18,14 @@ const root = ReactDOM.createRoot(
 root.render(
 	<Provider store={store}>
 		<PersistGate loading={null} persistor={persistor}>
-			<React.StrictMode>
+			{/* <React.StrictMode> */}
+			<LocalizationProvider dateAdapter={AdapterDayjs}>
 				<CssVarsProvider theme={Theme}>
 					<CssBaseline />
 					<App />
 				</CssVarsProvider>
-			</React.StrictMode>
+			</LocalizationProvider>
+			{/* </React.StrictMode> */}
 		</PersistGate>
 	</Provider>
 );

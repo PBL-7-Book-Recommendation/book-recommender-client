@@ -177,7 +177,11 @@ const Header: React.FC = () => {
 										Login
 									</Link>
 								</Button>
-								<Button sx={{ color: "black" }}>Signup</Button>
+								<Button>
+									<Link to={"sign-up"} style={{ color: "black" }}>
+										Signup
+									</Link>
+								</Button>
 							</Box>
 						)}
 					</Box>
