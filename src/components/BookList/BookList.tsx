@@ -4,11 +4,14 @@ import {
 	CardContent,
 	CardMedia,
 	Divider,
+	Tooltip,
 	Typography,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import { IBook } from "../../types";
+import { FALLBACK_IMAGE_URL } from "../../constants";
 
 const responsive = {
 	desktop: {
@@ -27,47 +30,12 @@ const responsive = {
 		slidesToSlide: 1, // optional, default to 1.
 	},
 };
-
-interface Book {
+interface BookListProps {
 	title: string;
-	author: string;
-	imageUrl: string;
+	books: IBook[] | [];
 }
 
-const books: Book[] = [
-	{
-		title: "The Hitchhiker's Guide",
-		author: "Douglas Adams",
-		imageUrl:
-			"https://images.unsplash.com/photo-1612969308146-066d55f37ccb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-	},
-	{
-		title: "To Kill a Mockingbird",
-		author: "Harper Lee",
-		imageUrl:
-			"https://images.unsplash.com/photo-1612969308146-066d55f37ccb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-	},
-	{
-		title: "Pride and Prejudice",
-		author: "Jane Austen",
-		imageUrl:
-			"https://images.unsplash.com/photo-1612969308146-066d55f37ccb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-	},
-	{
-		title: "Pride and Prejudice 2",
-		author: "Jane Austen",
-		imageUrl:
-			"https://images.unsplash.com/photo-1612969308146-066d55f37ccb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-	},
-	{
-		title: "Pride and Prejudice 2",
-		author: "Jane Austen",
-		imageUrl:
-			"https://images.unsplash.com/photo-1612969308146-066d55f37ccb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-	},
-];
-
-const BookList = ({ title }: any) => {
+const BookList = ({ title, books }: BookListProps) => {
 	return (
 		<>
 			<Box marginY={"2rem"}>
@@ -81,28 +49,37 @@ const BookList = ({ title }: any) => {
 				</Typography>
 				<Carousel responsive={responsive}>
 					{books.map((book) => (
-						<Card sx={{ px: 1 }}>
-							<Link to={`/books/${book.title}`} style={{ color: "black" }}>
+						<Card sx={{ px: 1 }} key={book.id}>
+							<Link to={`/books/${book.id}`} style={{ color: "black" }}>
 								<CardMedia
 									component="img"
 									image={book.imageUrl}
 									alt={book.title}
 									height="200"
+									onError={(e: any) => {
+										/**
+										 * Any code. For instance, changing the `src` prop with a fallback url.
+										 * In our code, I've added `e.target.className = fallback_className` for instance.
+										 */
+										e.target.src = FALLBACK_IMAGE_URL;
+									}}
 								/>
 								<CardContent>
-									<Typography
-										variant="h5"
-										sx={{
-											width: "250px",
-											whiteSpace: "nowrap",
-											overflow: "hidden",
-											textOverflow: "ellipsis",
-										}}
-									>
-										{book.title}
-									</Typography>
+									<Tooltip title={book.title} placement="top">
+										<Typography
+											variant="h5"
+											sx={{
+												width: "250px",
+												whiteSpace: "nowrap",
+												overflow: "hidden",
+												textOverflow: "ellipsis",
+											}}
+										>
+											{book.title}
+										</Typography>
+									</Tooltip>
 									<Typography variant="body2" color="text.secondary">
-										{book.author}
+										{book.authors}
 									</Typography>
 								</CardContent>
 							</Link>
