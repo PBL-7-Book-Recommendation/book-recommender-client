@@ -49,7 +49,24 @@ const Books = ({ books }: BooksProps) => {
 										{book.title}
 									</Typography>
 								</Tooltip>
-								<Typography variant="subtitle1">{book.authors}</Typography>
+								<Typography
+									variant="subtitle1"
+									sx={{
+										width: "250px",
+										whiteSpace: "nowrap",
+										overflow: "hidden",
+										textOverflow: "ellipsis",
+									}}
+								>
+									{book.authors?.map((item, index) => (
+										<span key={item.author.id}>
+											{item.author.name}
+											{book.authors && index < book.authors?.length - 1
+												? ", "
+												: ""}
+										</span>
+									))}
+								</Typography>
 							</CardContent>
 						</Link>
 					</Card>

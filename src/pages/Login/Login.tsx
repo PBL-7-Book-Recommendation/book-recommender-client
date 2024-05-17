@@ -17,7 +17,7 @@ import {
 	VisibilityOff,
 } from "@mui/icons-material";
 import styles from "./Login.module.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AuthApi, SelfApi } from "../../services";
 import { setHeaderConfigAxios } from "../../services/config";
@@ -44,7 +44,7 @@ const Login: React.FC = () => {
 				if (userInfo.data?.role?.type === "USER") {
 					dispatch(setCredentials(response.data));
 					dispatch(setUserInfo(userInfo.data));
-					navigate("/dashboard", { replace: true });
+					navigate("/home-page", { replace: true });
 				} else {
 					navigate("/", { replace: true });
 				}
@@ -162,14 +162,16 @@ const Login: React.FC = () => {
 								>
 									Login
 								</LoadingButton>
-								<Button
-									className={styles["submit-signup-btn"]}
-									size="large"
-									variant="contained"
-									disabled={loading}
-								>
-									Sign up
-								</Button>
+								<Link to={"../sign-up"} style={{ color: "black" }}>
+									<Button
+										className={styles["submit-signup-btn"]}
+										size="large"
+										variant="contained"
+										disabled={loading}
+									>
+										Sign up
+									</Button>
+								</Link>
 							</Stack>
 						</Form>
 					)}

@@ -1,7 +1,7 @@
 export interface IBook {
 	id: string;
 	title: string;
-	authors?: string[];
+	authors?: { author: IAuthor }[];
 	description: string;
 	price: number;
 	imageUrl: string;
@@ -16,4 +16,10 @@ export interface IBook {
 	publisher?: string;
 	releaseDate?: string;
 	source?: { id: number; name: string };
+}
+
+interface IAuthor {
+	id?: string;
+	name?: string;
+	avatar?: string;
 }
