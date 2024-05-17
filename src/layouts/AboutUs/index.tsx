@@ -25,7 +25,7 @@ const AboutUs = () => {
 				<Grid container xs={12} padding={"1rem"} spacing={1}>
 					<Typography variant="h4">Team Members</Typography>
 					{team.map((member: any) => (
-						<Grid item xs={12} md={6} paddingY={"1rem"}>
+						<Grid item xs={12} md={6} paddingY={"1rem"} key={member.name}>
 							<Card key={member.name} sx={{ mb: 2 }}>
 								<CardContent>
 									<Typography variant="h5">{member.name}</Typography>
