@@ -1,4 +1,5 @@
 import instance from "./../config";
+import contentBasedInstance from "./../config/content-based-config";
 
 type BookSearchType = {
 	page: number;
@@ -16,6 +17,10 @@ const getBooks = (params: BookSearchType) => {
 	});
 };
 
+const getContentBasedRecommendedBooks = (id: string) => {
+	return contentBasedInstance.get(`/content-based-recommend/${id}`);
+};
+
 const getBookById = (id: string) => {
 	return instance.get(`/books/${id}`);
 };
@@ -26,6 +31,7 @@ const deleteBookById = (id: string) => {
 
 export const BookApi = {
 	getBooks,
+	getContentBasedRecommendedBooks,
 	getBookById,
 	deleteBookById,
 };

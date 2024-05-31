@@ -4,6 +4,8 @@ import {
 	CardContent,
 	CardMedia,
 	Divider,
+	Grid,
+	Skeleton,
 	Tooltip,
 	Typography,
 } from "@mui/material";
@@ -47,27 +49,53 @@ const BookList = ({ title, books }: BookListProps) => {
 				>
 					{title}
 				</Typography>
-				<Carousel responsive={responsive}>
-					{books.map((book) => (
-						<Card sx={{ px: 1 }} key={book.id}>
-							<Link to={`/books/${book.id}`} style={{ color: "black" }}>
-								<CardMedia
-									component="img"
-									image={book.imageUrl}
-									alt={book.title}
-									height="200"
-									onError={(e: any) => {
-										/**
-										 * Any code. For instance, changing the `src` prop with a fallback url.
-										 * In our code, I've added `e.target.className = fallback_className` for instance.
-										 */
-										e.target.src = FALLBACK_IMAGE_URL;
-									}}
-								/>
-								<CardContent>
-									<Tooltip title={book.title} placement="top">
+				{books.length === 0 ? (
+					<Grid container spacing={2}>
+						{[...Array(4)].map((_, index) => (
+							<Grid item xs={12} md={3} key={index}>
+								<Card style={{ padding: "0.25rem" }}>
+									<Skeleton variant="rectangular" height={200} />
+									<Skeleton />
+									<Skeleton width="60%" />
+								</Card>
+							</Grid>
+						))}
+					</Grid>
+				) : (
+					<Carousel responsive={responsive}>
+						{books.map((book) => (
+							<Card sx={{ px: 1 }} key={book.id}>
+								<Link to={`/books/${book.id}`} style={{ color: "black" }}>
+									<CardMedia
+										component="img"
+										image={book.imageUrl}
+										alt={book.title}
+										height="200"
+										onError={(e: any) => {
+											/**
+											 * Any code. For instance, changing the `src` prop with a fallback url.
+											 * In our code, I've added `e.target.className = fallback_className` for instance.
+											 */
+											e.target.src = FALLBACK_IMAGE_URL;
+										}}
+									/>
+									<CardContent>
+										<Tooltip title={book.title} placement="top">
+											<Typography
+												variant="h5"
+												sx={{
+													width: "250px",
+													whiteSpace: "nowrap",
+													overflow: "hidden",
+													textOverflow: "ellipsis",
+												}}
+											>
+												{book.title}
+											</Typography>
+										</Tooltip>
 										<Typography
-											variant="h5"
+											variant="body2"
+											color="text.secondary"
 											sx={{
 												width: "250px",
 												whiteSpace: "nowrap",
@@ -75,33 +103,21 @@ const BookList = ({ title, books }: BookListProps) => {
 												textOverflow: "ellipsis",
 											}}
 										>
-											{book.title}
+											{book.authors?.map((item, index) => (
+												<span key={item.author.id}>
+													{item.author.name}
+													{book.authors && index < book.authors?.length - 1
+														? ", "
+														: ""}
+												</span>
+											))}
 										</Typography>
-									</Tooltip>
-									<Typography
-										variant="body2"
-										color="text.secondary"
-										sx={{
-											width: "250px",
-											whiteSpace: "nowrap",
-											overflow: "hidden",
-											textOverflow: "ellipsis",
-										}}
-									>
-										{book.authors?.map((item, index) => (
-											<span key={item.author.id}>
-												{item.author.name}
-												{book.authors && index < book.authors?.length - 1
-													? ", "
-													: ""}
-											</span>
-										))}
-									</Typography>
-								</CardContent>
-							</Link>
-						</Card>
-					))}
-				</Carousel>
+									</CardContent>
+								</Link>
+							</Card>
+						))}
+					</Carousel>
+				)}
 			</Box>
 			<Divider />
 		</>

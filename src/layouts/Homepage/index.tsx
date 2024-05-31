@@ -26,7 +26,6 @@ const Homepage = () => {
 				setTopRatedBooks(bookData);
 			} catch (err) {
 				setTopRatedBooks([]);
-			} finally {
 			}
 		};
 		const getNewReleasesBooks = async () => {
@@ -40,7 +39,6 @@ const Homepage = () => {
 				setNewReleasesBooks(bookData);
 			} catch (err) {
 				setNewReleasesBooks([]);
-			} finally {
 			}
 		};
 		const getMostReviewsBooks = async () => {
@@ -54,7 +52,6 @@ const Homepage = () => {
 				setMostReviewsBooks(bookData);
 			} catch (err) {
 				setMostReviewsBooks([]);
-			} finally {
 			}
 		};
 		const getMostRatesBooks = async () => {
@@ -68,7 +65,6 @@ const Homepage = () => {
 				setMostRatesBooks(bookData);
 			} catch (err) {
 				setMostRatesBooks([]);
-			} finally {
 			}
 		};
 		getTopRatedBooks();
@@ -86,10 +82,6 @@ const Homepage = () => {
 				<>
 					<BookList
 						title={"Recommended For You"}
-						books={topRatedBooks}
-					></BookList>
-					<BookList
-						title={"Because you liked Harry Potter"}
 						books={topRatedBooks}
 					></BookList>
 				</>
