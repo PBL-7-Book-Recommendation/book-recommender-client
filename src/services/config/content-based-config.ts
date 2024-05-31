@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 
-const baseURL = `https://59bf-2405-4802-60b9-f8a0-e563-4a93-b239-8b69.ngrok-free.app`;
+const baseURL = `https://pbl7-book-recommender-content-base.onrender.com`;
 
 const contentBasedInstance = axios.create({
 	baseURL: baseURL,
