@@ -81,11 +81,14 @@ const Header: React.FC = () => {
 					</Box>
 					<Box sx={{ display: { xs: "none", sm: "block" } }}>
 						{navItems.map((item) => (
-							<Button key={item.label}>
-								<Link to={item.link} style={{ color: "black" }}>
+							<Link to={item.link} style={{ color: "black" }}>
+								<Button
+									key={item.label}
+									style={{ color: "black", padding: "1rem" }}
+								>
 									{item.label}
-								</Link>
-							</Button>
+								</Button>
+							</Link>
 						))}
 					</Box>
 					<Box>
@@ -172,16 +175,16 @@ const Header: React.FC = () => {
 							</Box>
 						) : (
 							<Box>
-								<Button>
-									<Link to={"login"} style={{ color: "black" }}>
+								<Link to={"login"} style={{ color: "black" }}>
+									<Button style={{ color: "black", padding: "1rem" }}>
 										Login
-									</Link>
-								</Button>
-								<Button>
-									<Link to={"sign-up"} style={{ color: "black" }}>
+									</Button>
+								</Link>
+								<Link to={"sign-up"} style={{ color: "black" }}>
+									<Button style={{ color: "black", padding: "1rem" }}>
 										Signup
-									</Link>
-								</Button>
+									</Button>
+								</Link>
 							</Box>
 						)}
 					</Box>
