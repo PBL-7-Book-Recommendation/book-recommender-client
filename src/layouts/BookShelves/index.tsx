@@ -13,6 +13,7 @@ import Books from "../../components/Books/Books";
 import { BookApi } from "../../services";
 
 const BookShelves = () => {
+	const [filterTerm, setFilterTerm] = useState<string>("");
 	const [searchTerm, setSearchTerm] = useState<string>("");
 	const [books, setBooks] = useState<IBook[]>([]);
 	const [loading, setLoading] = useState<boolean>(false);
@@ -20,6 +21,7 @@ const BookShelves = () => {
 	const [totalBooks, setTotalBooks] = useState(1);
 
 	const handleFilterChange = (newFilter: string) => {
+		setFilterTerm(newFilter);
 		setSearchTerm("");
 		setCurrentPage(1);
 	};
@@ -54,9 +56,29 @@ const BookShelves = () => {
 				setLoading(false);
 			}
 		};
-
-		fetchBooks();
-	}, [currentPage, searchTerm]);
+		const fetchRatedBooks = async () => {
+			try {
+				setLoading(true);
+				const response = await BookApi.getRatedBooks({
+					page: currentPage,
+					perPage: 16,
+					search: searchTerm !== "" ? searchTerm : undefined,
+				});
+				const bookData = response.data?.data;
+				setBooks(bookData);
+				setTotalBooks(response.data?.meta?.total);
+			} catch (err) {
+				setBooks([]);
+			} finally {
+				setLoading(false);
+			}
+		};
+		if (filterTerm === "voted") {
+			fetchRatedBooks();
+		} else {
+			fetchBooks();
+		}
+	}, [currentPage, filterTerm, searchTerm]);
 
 	return (
 		<Box maxWidth="lg" margin={"auto"}>
@@ -67,7 +89,9 @@ const BookShelves = () => {
 				/>
 			</Grid>
 			<Grid item xs={9} sx={{ p: 2 }}>
-				<Typography variant="h5">Books</Typography>
+				<Typography variant="h5" paddingBottom={2}>
+					Books
+				</Typography>
 				{loading ? (
 					<Grid container spacing={2}>
 						{[...Array(16)].map((_, index) => (

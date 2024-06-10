@@ -7,6 +7,8 @@ import {
 	Typography,
 } from "@mui/material";
 import useDebounce from "../../hooks/useDebounce";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 interface BookMenuProps {
 	onFilterChange: (filter: string) => void;
@@ -16,6 +18,7 @@ interface BookMenuProps {
 const BookMenu = ({ onFilterChange, onSearchChange }: BookMenuProps) => {
 	const [filter, setFilter] = useState<string>("all");
 	const [searchTerm, setSearchTerm] = useState<string>("");
+	const accessToken = useSelector((state: RootState) => state.auth.accessToken);
 
 	const debounceSearch = useDebounce({
 		value: searchTerm,
@@ -37,7 +40,9 @@ const BookMenu = ({ onFilterChange, onSearchChange }: BookMenuProps) => {
 
 	return (
 		<Box>
-			<Typography variant="h5">Filter:</Typography>
+			<Typography variant="h5" paddingBottom={2}>
+				Filter:
+			</Typography>
 			<Box display={"flex"} justifyContent={"space-between"}>
 				<ToggleButtonGroup
 					defaultValue={"all"}
@@ -46,7 +51,9 @@ const BookMenu = ({ onFilterChange, onSearchChange }: BookMenuProps) => {
 					onChange={handleFilterChange}
 				>
 					<ToggleButton value="all">All Books</ToggleButton>
-					<ToggleButton value="voted">Voted Books</ToggleButton>
+					{accessToken && (
+						<ToggleButton value="voted">Voted Books</ToggleButton>
+					)}
 				</ToggleButtonGroup>
 				<TextField
 					label="Search Books"

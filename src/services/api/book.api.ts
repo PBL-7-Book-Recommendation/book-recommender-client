@@ -17,6 +17,12 @@ const getBooks = (params: BookSearchType) => {
 	});
 };
 
+const getRatedBooks = (params: BookSearchType) => {
+	return instance.get("/self/my-voted-books", {
+		params: params,
+	});
+};
+
 const getContentBasedRecommendedBooks = (id: string) => {
 	return contentBasedInstance.get(`/content-based-recommend/${id}`);
 };
@@ -31,6 +37,7 @@ const deleteBookById = (id: string) => {
 
 export const BookApi = {
 	getBooks,
+	getRatedBooks,
 	getContentBasedRecommendedBooks,
 	getBookById,
 	deleteBookById,
