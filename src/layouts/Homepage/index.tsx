@@ -8,11 +8,13 @@ import { BookApi } from "../../services";
 
 const Homepage = () => {
 	const accessToken = useSelector((state: RootState) => state.auth.accessToken);
+	const userInfo = useSelector((state: RootState) => state.auth.userInfo);
 
 	const [topRatedBooks, setTopRatedBooks] = useState<IBook[]>([]);
 	const [newReleasesBooks, setNewReleasesBooks] = useState<IBook[]>([]);
 	const [mostReviewsBooks, setMostReviewsBooks] = useState<IBook[]>([]);
 	const [mostRatesBooks, setMostRatesBooks] = useState<IBook[]>([]);
+	const [recommendedBooks, setRecommendedBooks] = useState<IBook[]>([]);
 
 	useEffect(() => {
 		const getTopRatedBooks = async () => {
@@ -67,11 +69,24 @@ const Homepage = () => {
 				setMostRatesBooks([]);
 			}
 		};
+		const getCFRecommendedBooks = async () => {
+			try {
+				const response =
+					await BookApi.getCollaborativeFilteringRecommendedBooks(userInfo.id);
+				const bookData = response.data?.data;
+				setRecommendedBooks(bookData);
+			} catch (err) {
+				setRecommendedBooks([]);
+			}
+		};
 		getTopRatedBooks();
 		getNewReleasesBooks();
 		getMostReviewsBooks();
 		getMostRatesBooks();
-	}, []);
+		if (accessToken) {
+			getCFRecommendedBooks();
+		}
+	}, [accessToken, userInfo]);
 
 	return (
 		<Box maxWidth="lg" paddingY={"1rem"} margin={"auto"}>
@@ -82,7 +97,7 @@ const Homepage = () => {
 				<>
 					<BookList
 						title={"Recommended For You"}
-						books={topRatedBooks}
+						books={recommendedBooks}
 					></BookList>
 				</>
 			)}
