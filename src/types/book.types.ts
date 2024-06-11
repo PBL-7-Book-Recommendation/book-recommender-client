@@ -15,7 +15,7 @@ export interface IBook {
 	numberOfRatings?: number;
 	publisher?: string;
 	releaseDate?: string;
-	source?: { id: number; name: string };
+	source: { id: number; name: string };
 }
 
 interface IAuthor {

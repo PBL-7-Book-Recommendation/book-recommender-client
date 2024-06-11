@@ -23,8 +23,8 @@ const getRatedBooks = (params: BookSearchType) => {
 	});
 };
 
-const getContentBasedRecommendedBooks = (id: string) => {
-	return contentBasedInstance.get(`/content-based-recommend/${id}`);
+const getContentBasedRecommendedBooks = (id: string, sourceId: number) => {
+	return contentBasedInstance.get(`/content-based-recommend/${id}-${sourceId}`);
 };
 
 const getBookById = (id: string) => {
