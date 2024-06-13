@@ -28,6 +28,8 @@ import styles from "./SignUp.module.css";
 import { SignUpForm } from "./SignUp.types";
 import dayjs from "dayjs";
 import { DatePicker } from "@mui/x-date-pickers";
+import { setCBHeaderConfigAxios } from "../../services/config/content-based-config";
+import { setCFHeaderConfigAxios } from "../../services/config/collaborative-filtering-config";
 
 const SignUp: React.FC = () => {
 	const [showPassword, setShowPassword] = useState(false);
@@ -57,11 +59,12 @@ const SignUp: React.FC = () => {
 				},
 				deviceId: values.deviceId,
 			};
-			console.log(signUpData);
 			setLoading(true);
 			const response = await AuthApi.signup(signUpData);
 			if (response && response.data && response.data.access_token) {
 				setHeaderConfigAxios(response.data.access_token);
+				setCBHeaderConfigAxios(response.data.access_token);
+				setCFHeaderConfigAxios(response.data.access_token);
 				const userInfo = await SelfApi.getMe();
 				if (userInfo.data?.role?.type === "USER") {
 					dispatch(setCredentials(response.data));

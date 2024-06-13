@@ -154,8 +154,7 @@ const BookDetail = ({ book }: BookDetailProps) => {
 											marginLeft={1}
 										>
 											({book.averageRating ? book.averageRating : 0}/10) (
-											{book.numberOfRatings ? book.numberOfRatings : 0} rates) (
-											{book.numberOfReviews ? book.numberOfReviews : 0} reviews)
+											{book.numberOfRatings ? book.numberOfRatings : 0} rates)
 										</Typography>
 									</Box>
 									<Typography variant="h5" color="primary">

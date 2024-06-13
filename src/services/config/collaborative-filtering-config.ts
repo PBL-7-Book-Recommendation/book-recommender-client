@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 
-const baseURL = `https://bf7d-2402-800-6205-8f8b-b826-99a3-367b-85b4.ngrok-free.app`;
+const baseURL = `https://7126-2402-800-6205-8f8b-2d11-5e67-8881-c039.ngrok-free.app`;
 
 const collaborativeFilteringInstance = axios.create({
 	baseURL: baseURL,
@@ -23,7 +23,7 @@ const handleErrorResponse = (error: any) => {
 	}
 };
 
-export const setHeaderConfigAxios = (token?: string) => {
+export const setCFHeaderConfigAxios = (token?: string) => {
 	if (token) {
 		collaborativeFilteringInstance.defaults.headers.common["Authorization"] =
 			token ? "Bearer " + token : "";

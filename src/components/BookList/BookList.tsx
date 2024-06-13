@@ -14,6 +14,10 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { IBook } from "../../types";
 import { FALLBACK_IMAGE_URL } from "../../constants";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { InteractionApi } from "../../services";
+import { useCallback } from "react";
 
 const responsive = {
 	desktop: {
@@ -38,6 +42,30 @@ interface BookListProps {
 }
 
 const BookList = ({ title, books }: BookListProps) => {
+	const userId = useSelector((state: RootState) => state.auth.userInfo?.id);
+
+	const handleBookClick = useCallback(
+		(bookId: string) => {
+			const clickBook = async (type: string) => {
+				try {
+					await InteractionApi.updateCurrentUserInteractionsByBookId({
+						bookId,
+						type,
+					});
+				} catch (err) {
+					console.log(err);
+				}
+			};
+			if (title === "Recommended For You" && userId) {
+				clickBook("VIEW_COLLABORATIVE");
+			}
+			if (title === "Related books" && userId) {
+				clickBook("VIEW_CONTENT_BASED");
+			}
+		},
+		[title, userId]
+	);
+
 	return (
 		<>
 			<Box marginY={"2rem"}>
@@ -64,7 +92,11 @@ const BookList = ({ title, books }: BookListProps) => {
 				) : (
 					<Carousel responsive={responsive}>
 						{books.map((book) => (
-							<Card sx={{ px: 1 }} key={book.id}>
+							<Card
+								sx={{ px: 1 }}
+								key={book.id}
+								onClick={() => handleBookClick(book.id)}
+							>
 								<Link to={`/books/${book.id}`} style={{ color: "black" }}>
 									<CardMedia
 										component="img"

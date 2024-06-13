@@ -23,6 +23,8 @@ import { AuthApi, SelfApi } from "../../services";
 import { setHeaderConfigAxios } from "../../services/config";
 import { setCredentials, setUserInfo } from "../../redux/reducers";
 import { LoadingButton } from "@mui/lab";
+import { setCBHeaderConfigAxios } from "../../services/config/content-based-config";
+import { setCFHeaderConfigAxios } from "../../services/config/collaborative-filtering-config";
 
 const Login: React.FC = () => {
 	const [showPassword, setShowPassword] = useState(false);
@@ -40,6 +42,8 @@ const Login: React.FC = () => {
 			const response = await AuthApi.login(values);
 			if (response && response.data && response.data.access_token) {
 				setHeaderConfigAxios(response.data.access_token);
+				setCBHeaderConfigAxios(response.data.access_token);
+				setCFHeaderConfigAxios(response.data.access_token);
 				const userInfo = await SelfApi.getMe();
 				if (userInfo.data?.role?.type === "USER") {
 					dispatch(setCredentials(response.data));

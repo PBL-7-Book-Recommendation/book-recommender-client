@@ -12,7 +12,6 @@ const Homepage = () => {
 
 	const [topRatedBooks, setTopRatedBooks] = useState<IBook[]>([]);
 	const [newReleasesBooks, setNewReleasesBooks] = useState<IBook[]>([]);
-	const [mostReviewsBooks, setMostReviewsBooks] = useState<IBook[]>([]);
 	const [mostRatesBooks, setMostRatesBooks] = useState<IBook[]>([]);
 	const [recommendedBooks, setRecommendedBooks] = useState<IBook[]>([]);
 
@@ -43,19 +42,6 @@ const Homepage = () => {
 				setNewReleasesBooks([]);
 			}
 		};
-		const getMostReviewsBooks = async () => {
-			try {
-				const response = await BookApi.getBooks({
-					page: 1,
-					perPage: 10,
-					order: "numberOfReviews:desc",
-				});
-				const bookData = response.data?.data;
-				setMostReviewsBooks(bookData);
-			} catch (err) {
-				setMostReviewsBooks([]);
-			}
-		};
 		const getMostRatesBooks = async () => {
 			try {
 				const response = await BookApi.getBooks({
@@ -81,7 +67,6 @@ const Homepage = () => {
 		};
 		getTopRatedBooks();
 		getNewReleasesBooks();
-		getMostReviewsBooks();
 		getMostRatesBooks();
 		if (accessToken) {
 			getCFRecommendedBooks();
@@ -103,10 +88,6 @@ const Homepage = () => {
 			)}
 			<BookList title={"New Releases"} books={newReleasesBooks}></BookList>
 			<BookList title={"Top Rated"} books={topRatedBooks}></BookList>
-			<BookList
-				title={"Books with Most Reviews"}
-				books={mostReviewsBooks}
-			></BookList>
 			<BookList
 				title={"Book with Most Rates"}
 				books={mostRatesBooks}

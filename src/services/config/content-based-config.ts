@@ -23,7 +23,7 @@ const handleErrorResponse = (error: any) => {
 	}
 };
 
-export const setHeaderConfigAxios = (token?: string) => {
+export const setCBHeaderConfigAxios = (token?: string) => {
 	if (token) {
 		contentBasedInstance.defaults.headers.common["Authorization"] = token
 			? "Bearer " + token

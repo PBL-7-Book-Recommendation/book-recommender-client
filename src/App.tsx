@@ -9,6 +9,8 @@ import { RouterProvider } from "react-router-dom";
 import { router } from "./router";
 import { GlobalStyle } from "./styles/GlobalStyle";
 import Theme from "./theme";
+import { setCBHeaderConfigAxios } from "./services/config/content-based-config";
+import { setCFHeaderConfigAxios } from "./services/config/collaborative-filtering-config";
 
 function App() {
 	const [loading, setLoading] = useState(true);
@@ -17,6 +19,8 @@ function App() {
 	useEffect(() => {
 		if (accessToken) {
 			setHeaderConfigAxios(accessToken);
+			setCBHeaderConfigAxios(accessToken);
+			setCFHeaderConfigAxios(accessToken);
 		}
 		setLoading(false);
 	}, [accessToken]);
