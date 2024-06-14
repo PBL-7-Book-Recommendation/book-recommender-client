@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 
-const baseURL = `https://abab-1-53-51-197.ngrok-free.app`;
+const baseURL = `https://b476-42-1-92-150.ngrok-free.app`;
 
 const collaborativeFilteringInstance = axios.create({
 	baseURL: baseURL,
